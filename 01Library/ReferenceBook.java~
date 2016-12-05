@@ -1,0 +1,12 @@
+Class ReferenceBook extends LibraryBook{
+    
+    String collection;
+
+    public RefrenceBook( String author, String title, int ISBN, String callNumber, String collection){
+	super.set("author",author);
+	super.set ("title", title);
+        super.set ("ISBN", ISBN);
+        this.callNumber = callNumber;
+
+
+}
