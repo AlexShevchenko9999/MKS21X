@@ -15,3 +15,8 @@ public class SuperArrayIterator implements Iterator<String>{
         if (hasNext()){
             return ary.get(start);
         }
+    }
+    
+    public void remove(){
+           throw new UnsupportedOperationException();
+    }
