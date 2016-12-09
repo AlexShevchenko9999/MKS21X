@@ -27,9 +27,12 @@ public class Barcode implements Comparable<Barcode>{
 	_checkDigit = checkSum() % 10;
     }
 
-    // postcondition: Creates a copy of a bar code.
-    public Barcode clone(){
-	return this;
+    public String getZip(){
+	return _zip;
+    }
+
+    public int getCheckDigit(){
+	return _checkDigit;
     }
 
 
@@ -78,7 +81,7 @@ public class Barcode implements Comparable<Barcode>{
 
     // postcondition: compares the zip + checkdigit, in numerical order. 
     public int compareTo(Barcode other){
-	other.compareTo(Integer.parseInt(_zip + _checkDigit));
+	return (_zip + _checkDigit).compareTo(other.getZip() + other.getCheckDigit());
     }
     
 }
