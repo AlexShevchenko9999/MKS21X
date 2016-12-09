@@ -27,17 +27,20 @@ public class Barcode implements Comparable<Barcode>{
 	_checkDigit = checkSum() % 10;
     }
 
-    // postcondition: Creates a copy of a bar code.
-    public Barcode clone(){
-	return this;
+    public String getZip(){
+	return _zip;
+    }
+
+    public int getCheckDigit(){
+	return _checkDigit;
     }
 
 
     // postcondition: computes and returns the check sum for _zip
     private int checkSum(){
 	int ans = 0;
-	for (int i = 0; i < 5; i++){
-	    ans += Integer.parseInt(_zip.substring(i));
+	for (int i = 1; i <= 5; i++){
+	    ans += Integer.parseInt(_zip.substring(i-1,i));
 	}
 	return ans;
     }
@@ -72,13 +75,24 @@ public class Barcode implements Comparable<Barcode>{
         case 8: ans += "|::|:";
         case 9: ans += "|:|::";
         }
-	return _zip + _checkDigit + ans + "|"; 
+	return _zip + _checkDigit + "  " +  ans + "|"; 
     }
     
 
     // postcondition: compares the zip + checkdigit, in numerical order. 
     public int compareTo(Barcode other){
-	other.compareTo(Integer.parseInt(_zip + _checkDigit));
+	return (_zip + _checkDigit).compareTo(other.getZip() + other.getCheckDigit());
+    }
+
+    
+
+    
+    
+    public static void main (String [] arg){
+	Barcode b1;
+
+	b1 = new Barcode("37053");
+	System.out.println(b1);
     }
     
 }
