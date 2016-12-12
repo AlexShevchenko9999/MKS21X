@@ -39,8 +39,8 @@ public class Barcode implements Comparable<Barcode>{
     // postcondition: computes and returns the check sum for _zip
     private int checkSum(){
 	int ans = 0;
-	for (int i = 0; i < 5; i++){
-	    ans += Integer.parseInt(_zip.substring(i));
+	for (int i = 1; i <= 5; i++){
+	    ans += Integer.parseInt(_zip.substring(i-1,i));
 	}
 	return ans;
     }
@@ -48,13 +48,23 @@ public class Barcode implements Comparable<Barcode>{
     //postcondition: format zip + check digit + Barcode 
     //ex. "084518  |||:::|::|::|::|:|:|::::|||::|:|"      
     public String toString(){
+	return _zip + _checkDigit + "  " + toCode(_zip); 
+    }
+    
+
+    // postcondition: compares the zip + checkdigit, in numerical order. 
+    public int compareTo(Barcode other){
+	return (_zip + _checkDigit).compareTo(other.getZip() + other.getCheckDigit());
+    }
+
+    public static String toCode(String zip){
 	String ans = "|";
         for (int i = 0; i < 5;i++){
-            switch (Integer.parseInt(_zip.substring(i))){
+            switch (Integer.parseInt(zip.substring(i))){
             case 0: ans+= "||:::";
-	    case 1: ans+= ":::||";
-	    case 2: ans+= "::|:|";
-	    case 3: ans+= "::||:";
+            case 1: ans+= ":::||";
+            case 2: ans+= "::|:|";
+            case 3: ans+= "::||:";
             case 4: ans += ":|::|";
             case 5: ans += ":|:|:";
             case 6: ans += ":||::";
@@ -62,8 +72,8 @@ public class Barcode implements Comparable<Barcode>{
             case 8: ans += "|::|:";
             case 9: ans += "|:|::";
             }
-	}
-	switch (_checkDigit){
+        }
+        switch (checkSum() % 10){
         case 0: ans+= "||:::";
         case 1: ans+= ":::||";
         case 2: ans+= "::|:|";
@@ -75,13 +85,18 @@ public class Barcode implements Comparable<Barcode>{
         case 8: ans += "|::|:";
         case 9: ans += "|:|::";
         }
-	return _zip + _checkDigit + ans + "|"; 
+	return ans + "|";
     }
+
     
 
-    // postcondition: compares the zip + checkdigit, in numerical order. 
-    public int compareTo(Barcode other){
-	return (_zip + _checkDigit).compareTo(other.getZip() + other.getCheckDigit());
+    
+    
+    public static void main (String [] arg){
+	Barcode b1;
+
+	b1 = new Barcode("37053");
+	System.out.println(b1);
     }
     
 }
