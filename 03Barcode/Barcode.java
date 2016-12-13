@@ -59,18 +59,18 @@ public class Barcode implements Comparable<Barcode>{
 
     public static String toCode(String zip){
 	String ans = "|";
-        for (int i = 0; i < 5;i++){
-            switch (Integer.parseInt(zip.substring(i))){
+        for (int i = 1; i <= 5;i++){
+            switch (Integer.parseInt(zip.substring(i-1,i))){
             case 0: ans+= "||:::";
             case 1: ans+= ":::||";
             case 2: ans+= "::|:|";
             case 3: ans+= "::||:";
-            case 4: ans += ":|::|";
-            case 5: ans += ":|:|:";
-            case 6: ans += ":||::";
-            case 7: ans += "|:::|";
-            case 8: ans += "|::|:";
-            case 9: ans += "|:|::";
+            case 4: ans+= ":|::|";
+            case 5: ans+= ":|:|:";
+            case 6: ans+= ":||::";
+            case 7: ans+= "|:::|";
+            case 8: ans+= "|::|:";
+            case 9: ans+= "|:|::";
             }
         }
 	int check = 0;
@@ -82,14 +82,35 @@ public class Barcode implements Comparable<Barcode>{
         case 1: ans+= ":::||";
         case 2: ans+= "::|:|";
         case 3: ans+= "::||:";
-        case 4: ans += ":|::|";
-        case 5: ans += ":|:|:";
-        case 6: ans += ":||::";
-        case 7: ans += "|:::|";
-        case 8: ans += "|::|:";
-        case 9: ans += "|:|::";
+        case 4: ans+= ":|::|";
+        case 5: ans+= ":|:|:";
+        case 6: ans+= ":||::";
+        case 7: ans+= "|:::|";
+        case 8: ans+= "|::|:";
+        case 9: ans+= "|:|::";
         }
 	return ans + "|";
+    }
+
+    public static String toZip(String code){
+	String ans="";
+	ArrayList<String> zips = new ArrayList<>(Arrays.asList("||:::",":::||","::|:|","::||:",":|::|",":|:|:",":||::","|:::|","|::|:","|:|::"));
+	//errors
+	if(code.length() != 32){
+	    throw new IllegalArgumentException();
+	}
+	else if(code.charAt(0) != '|' || code.charAt(31) != '|'){
+	    throw new IllegalArgumentException();
+	}
+	//
+	for (int i=0; i < code.length(); i+=5){
+	    for (String x : zips){
+		if (x.equals(code.substring(i,i+5))){
+			ans += zips.indexOf(x);
+		    }
+	    }
+	}
+	return ans;
     }
 
     
@@ -100,6 +121,8 @@ public class Barcode implements Comparable<Barcode>{
 
 	b1 = new Barcode("37053");
 	System.out.println(b1);
+	System.out.println(toZip("||::::::||::|:|::||::|::|"));
+	System.out.println(toCode("93728"));
     }
     
 }
