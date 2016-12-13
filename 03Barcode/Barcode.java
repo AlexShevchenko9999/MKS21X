@@ -54,7 +54,7 @@ public class Barcode implements Comparable<Barcode>{
 
     // postcondition: compares the zip + checkdigit, in numerical order. 
     public int compareTo(Barcode other){
-	return (_zip + _checkDigit).compareTo(other.getZip() + other.getCheckDigit());
+	return _zip.compareTo(other._zip);
     }
 
     public static String toCode(String zip){
@@ -73,7 +73,11 @@ public class Barcode implements Comparable<Barcode>{
             case 9: ans += "|:|::";
             }
         }
-        switch (checkSum() % 10){
+	int check = 0;
+        for (int i = 1; i <= 5; i++){
+            check += Integer.parseInt(zip.substring(i-1,i));
+        }
+        switch (check % 10){
         case 0: ans+= "||:::";
         case 1: ans+= ":::||";
         case 2: ans+= "::|:|";
@@ -90,7 +94,6 @@ public class Barcode implements Comparable<Barcode>{
 
     
 
-    
     
     public static void main (String [] arg){
 	Barcode b1;
